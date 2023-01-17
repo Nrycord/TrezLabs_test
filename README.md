@@ -18,5 +18,5 @@ the "books" table consists of the fields:
 
 ## Branches of this repository
 
-(main) -> Contains the lastest stable version of the requirement.
-(dev) -> Contains all the tests and new features that are currently being implemented, the test and developemnt area.
+- (main) -> Contains the lastest stable version of the requirement.
+- (dev) -> Contains all the tests and new features that are currently being implemented, the test and developemnt area.
