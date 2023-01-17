@@ -29,9 +29,9 @@ class BooksController extends Controller
 
         if($validations->fails()){
             return [
-                "status" => 'error',
+                "status" => 403,
+                "msg" => "Validation Failed",
                 "data" => $validations->errors(),
-                "msg" => "Validation Failed"
             ];
         }
         
@@ -39,9 +39,9 @@ class BooksController extends Controller
         Books::create($request->all());
 
         return [
-            "status" => 'success',
+            "status" => 200,
+            "msg" => "New book added",
             "data" => $request->all(),
-            "msg" => "New book added"
         ];
     }
 
@@ -54,16 +54,16 @@ class BooksController extends Controller
     public function show()
     {
         return [
-            "status" => 'success',
+            "status" => 200,
+            "msg" => "Books retrieved succesfully",
             "data" =>Books::get(),
-            "msg" => "Books retrieved succesfully"
         ];
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Books  $books
+     * @param  string title
      * @return \Illuminate\Http\Response
      */
     public function destroy($title)
@@ -71,17 +71,17 @@ class BooksController extends Controller
         $book = Books::where('title', $title)->first();
         if(!$book){
             return [
-                "status" => 'error',
+                "status" => 404,
+                "msg" => "Book not found",
                 "data" => $title,
-                "msg" => "Book not found"
             ];
         }        
         //If the book is found, then it deletes the target
         $book->delete();
         return [
-            "status" => 'success',
+            "status" => 200,
+            "msg" => "Book deleted successfully",
             "data" => $book,
-            "msg" => "Book deleted successfully"
         ];
     }
 }

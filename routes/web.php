@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/books', [BooksController::class, 'show']);
+Route::post('/books', [BooksController::class, 'store']);
+Route::delete('/books/{title}', [BooksController::class, 'destroy']);
