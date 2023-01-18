@@ -48,6 +48,7 @@ class BooksController extends Controller
 
     /**
      * Display all the books in the database
+     * Including all the categories that the book has
      *
      * @param  \App\Models\Books  $books
      * @return \Illuminate\Http\Response
@@ -57,7 +58,7 @@ class BooksController extends Controller
         return [
             "status" => 200,
             "msg" => "Books retrieved succesfully",
-            "data" =>Books::get(),
+            "data" =>Books::with('categories')->get(),
 
         ];
     }

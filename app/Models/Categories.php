@@ -11,7 +11,7 @@ class Categories extends Model
     protected $fillable = [
         'name',
     ];
-    
+    //A category can held by multiple books
     public function books(){
         return $this->belongsToMany(Books::class,'books_categories','categories_id','books_id');
     }

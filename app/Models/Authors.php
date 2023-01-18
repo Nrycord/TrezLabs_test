@@ -13,7 +13,7 @@ class Authors extends Model
         'last_name',
         'birthday',
     ];
-    
+    //An author can have multiple books
     public function books(){
         return $this->hasMany(Books::class);
     }
