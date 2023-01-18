@@ -8,26 +8,6 @@ use Illuminate\Http\Request;
 class CategoriesController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,7 +15,28 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //We define the rules of the information we need
+        $rules = [
+            'name' => 'required|string|max:100',
+        ];
+        //Apply said rules to all the fields given by the user
+        $validations = Validator::make($request->all(),$rules);
+
+        if($validations->fails()){
+            return [
+                "status" => 403,
+                "msg" => "Validation Failed",
+                "data" => $validations->errors(),
+            ];
+        }
+        
+        //If it passed all validations then we add the new row and return the saved info
+        Authors::create($request->all());
+        return [
+            "status" => 200,
+            "msg" => "New category added",
+            "data" => $request->all(),
+        ];
     }
 
     /**
@@ -46,7 +47,11 @@ class CategoriesController extends Controller
      */
     public function show(Categories $categories)
     {
-        //
+        return [
+            "status" => 200,
+            "msg" => "Categories retrieved succesfully",
+            "data" =>Categories::get(),
+        ];
     }
 
     /**
@@ -78,8 +83,22 @@ class CategoriesController extends Controller
      * @param  \App\Models\Categories  $categories
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categories $categories)
+    public function destroy($id)
     {
-        //
+        $category = Categories::where('id', $id)->first();
+        if(!$category){
+            return [
+                "status" => 404,
+                "msg" => "Category not found",
+                "data" => $id,
+            ];
+        }        
+        //If the row is found, then it deletes the target
+        $category->delete();
+        return [
+            "status" => 200,
+            "msg" => "Category deleted successfully",
+            "data" => $category,
+        ];
     }
 }

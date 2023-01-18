@@ -36,14 +36,15 @@ class BooksController extends Controller
                 "data" => $validations->errors(),
             ];
         }
+
         try {
-        //If it passed all validations then we add the new book and return the saved info
-        Books::create($request->all());
-        return [
-            "status" => 200,
-            "msg" => "New book added",
-            "data" => $request->all(),
-        ];
+            //If it passed all validations then we add the new row and return the saved info
+            Books::create($request->all());
+            return [
+                "status" => 200,
+                "msg" => "New book added",
+                "data" => $request->all(),
+            ];
         } catch (\Throwable $th) {
             return [
                 "status" => 400,
@@ -53,6 +54,25 @@ class BooksController extends Controller
         }
     }
 
+    public function addCategoryToBook(Request $request){
+        try {
+            //If it passed all validations then we add the new row and return the saved info
+            $book = Books::get($request->books_id);
+            $book->categories()->attach($request->categories_id);
+
+            return [
+                "status" => 200,
+                "msg" => "Category added to the book",
+                "data" => $request->all(),
+            ];
+        } catch (\Throwable $th) {
+            return [
+                "status" => 400,
+                "msg" => "An error has ocurred",
+                "data" => $th,
+            ];
+        }
+    }
     /**
      * Display all the books in the database
      * Including all the categories that the book has
@@ -66,7 +86,6 @@ class BooksController extends Controller
             "status" => 200,
             "msg" => "Books retrieved succesfully",
             "data" =>Books::with('categories')->get(),
-
         ];
     }
 
@@ -86,7 +105,7 @@ class BooksController extends Controller
                 "data" => $title,
             ];
         }        
-        //If the book is found, then it deletes the target
+        //If the row is found, then it deletes the target
         $book->delete();
         return [
             "status" => 200,

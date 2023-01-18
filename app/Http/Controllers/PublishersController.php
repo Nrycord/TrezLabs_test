@@ -4,29 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Publishers;
 use Illuminate\Http\Request;
+use Validator;
 
 class PublishersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -35,7 +16,28 @@ class PublishersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //We define the rules of the information we need
+        $rules = [
+            'name' => 'required|string|max:100',
+            ];
+        //Apply said rules to all the fields given by the user
+        $validations = Validator::make($request->all(),$rules);
+
+        if($validations->fails()){
+            return [
+                "status" => 403,
+                "msg" => "Validation Failed",
+                "data" => $validations->errors(),
+            ];
+        }
+        
+        //If it passed all validations then we add the new row and return the saved info
+        Publishers::create($request->all());
+        return [
+            "status" => 200,
+            "msg" => "New publisher added",
+            "data" => $request->all(),
+        ];
     }
 
     /**
@@ -46,7 +48,11 @@ class PublishersController extends Controller
      */
     public function show(Publishers $publishers)
     {
-        //
+        return [
+            "status" => 200,
+            "msg" => "Publishers retrieved succesfully",
+            "data" =>Publishers::get(),
+        ];
     }
 
     /**
@@ -78,8 +84,22 @@ class PublishersController extends Controller
      * @param  \App\Models\Publishers  $publishers
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Publishers $publishers)
+    public function destroy($id)
     {
-        //
+        $publisher = Publishers::where('id', $id)->first();
+        if(!$publisher){
+            return [
+                "status" => 404,
+                "msg" => "Publisher not found",
+                "data" => $id,
+            ];
+        }        
+        //If the row is found, then it deletes the target
+        $publisher->delete();
+        return [
+            "status" => 200,
+            "msg" => "Publisher deleted successfully",
+            "data" => $publisher,
+        ];
     }
 }
