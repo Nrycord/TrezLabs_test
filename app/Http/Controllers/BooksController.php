@@ -36,7 +36,7 @@ class BooksController extends Controller
                 "data" => $validations->errors(),
             ];
         }
-        
+        try {
         //If it passed all validations then we add the new book and return the saved info
         Books::create($request->all());
         return [
@@ -44,6 +44,13 @@ class BooksController extends Controller
             "msg" => "New book added",
             "data" => $request->all(),
         ];
+        } catch (\Throwable $th) {
+            return [
+                "status" => 400,
+                "msg" => "Author or Publisher not found",
+                "data" => $th,
+            ];
+        }
     }
 
     /**
