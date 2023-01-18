@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Authors;
 
+use App\Models\Authors;
 use App\Models\Books;
-use App\Models\BooksAuthors;
+use App\Models\Categories;
+use App\Models\BooksCategories;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Validator;
@@ -56,22 +57,34 @@ class BooksController extends Controller
 
     public function addCategoryToBook(Request $request){
         try {
-            //If it passed all validations then we add the new row and return the saved info
-            $book = Books::get($request->books_id);
-            $book->categories()->attach($request->categories_id);
+            //We search if the book already has that acategory
+            $book_category = BooksCategories::
+                where('books_id',$request->books_id)
+                ->where('categories_id',$request->categories_id)
+                ->get();
 
+            if($book_category){
+                return [
+                    "status" => 200,
+                    "msg" => "The book already has that category",
+                    "data" => $request->all()
+                ];
+            }
+            //If it doesnt we add it to the database
+            BooksCategories::create($request->all());
             return [
                 "status" => 200,
                 "msg" => "Category added to the book",
-                "data" => $request->all(),
+                "data" => $request->all()
             ];
         } catch (\Throwable $th) {
+            //In case a foreign key fails, an invalid id was given
             return [
-                "status" => 400,
-                "msg" => "An error has ocurred",
-                "data" => $th,
+                "status" => 404,
+                "msg" => "Book or category not found",
+                "data" => $request->all()
             ];
-        }
+        }    
     }
     /**
      * Display all the books in the database

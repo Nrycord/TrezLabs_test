@@ -21,6 +21,7 @@ use App\Http\Controllers\PublishersController;
 Route::prefix('books')->group(function () {
     Route::get('/', [BooksController::class, 'show']);
     Route::post('/', [BooksController::class, 'store']);
+    Route::post('/category', [BooksController::class, 'addCategoryToBook']);
     Route::delete('/{title}', [BooksController::class, 'destroy']);
 });
 
