@@ -11,7 +11,7 @@ All said endpoints were asigned in the API route directory, as such they all are
 2. (post) /api/books/ -> Adds the new book to the list
 3. (delete) /api/books/{title} -> Deletes the book by the title that was sent
 
-Note: the same pattern applies to the rest of the controllers (Authors and Publishers), as can be found on the Collection (json) attached to the project
+Note: the same pattern applies to the rest of the controllers (Authors and Publishers) except the delete that works with the ID instead of a title, as can be found on the Collection (json) attached to the project
 
 ## Database Structure
 

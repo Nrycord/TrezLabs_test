@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use Validator;
 
 class CategoriesController extends Controller
 {
@@ -31,7 +32,7 @@ class CategoriesController extends Controller
         }
         
         //If it passed all validations then we add the new row and return the saved info
-        Authors::create($request->all());
+        Categories::create($request->all());
         return [
             "status" => 200,
             "msg" => "New category added",
