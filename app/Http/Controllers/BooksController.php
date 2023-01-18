@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Authors;
 
 use App\Models\Books;
+use App\Models\BooksAuthors;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Validator;
@@ -20,8 +22,8 @@ class BooksController extends Controller
         //We define the rules of the information we need
         $rules = [
             'title' => ['required', Rule::unique('books', 'title'),'max:200','string'],
-            'author' => 'required|string',
-            'publisher' => 'required|string',
+            'authors_id' => 'required|integer',
+            'publishers_id' => 'required|integer',
             'number_of_pages' => 'required|integer',
         ];
         //Apply said rules to all the fields given by the user
@@ -37,7 +39,6 @@ class BooksController extends Controller
         
         //If it passed all validations then we add the new book and return the saved info
         Books::create($request->all());
-
         return [
             "status" => 200,
             "msg" => "New book added",
@@ -57,6 +58,7 @@ class BooksController extends Controller
             "status" => 200,
             "msg" => "Books retrieved succesfully",
             "data" =>Books::get(),
+
         ];
     }
 

@@ -16,8 +16,12 @@ class CreateBooksTable extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('author');
-            $table->string('publisher');
+            $table->unsignedBiginteger('authors_id')->unsigned();
+            $table->foreign("authors_id")->references('id')->on("authors")->onDelete('cascade');
+            
+            $table->unsignedBiginteger('publishers_id')->unsigned();
+            $table->foreign("publishers_id")->references('id')->on("publishers")->onDelete('cascade');
+            
             $table->integer('number_of_pages');
             $table->timestamps();
         });
