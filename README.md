@@ -11,6 +11,7 @@ All said endpoints were asigned in the API route directory, as such they all are
 2. (post) /api/books/ -> Adds the new book to the list
 3. (delete) /api/books/{title} -> Deletes the book by the title that was sent
 
+Note: the same pattern applies to the rest of the controllers (Authors and Publishers), as can be found on the Collection (json) attached to the project
 
 ## Database Structure
 
@@ -18,12 +19,13 @@ the "books" table consists of the fields:
 
 - id (autoincrement and primary)
 - title (marked as unique)
-- author (string in it's current version, but preferably will be turned into it's own endpoint to manage different authors)
-- publisher (string, same as above)
+- author (contains the id of the author it corresponds to)
+- publisher (contains the id of the publisher it corresponds to)
 - number_of_pages (int)
 
 ## Future ideas in development
 
-- Add the CRUD endpoints for authors and publishers so the API can utilize those later on for filtering and searching processes.
-- Link a user to a favourited book, so it can also be employed and filtered for multiple simultaneous users.
-- Protect some endpoints with a auth key so they can only be accessed with an user's key (Probably using bearer token as it's the one i've used before). 
+- Add the CRUD endpoints for authors and publishers so the API can utilize those later on for filtering and searching processes. (Done)
+- Add categories and allow to add multiple categories to a book (Done, missing Categories CRUD)
+- Link a user to a favourited book, so it can also be employed and filtered for multiple simultaneous users. (Pending)
+- Protect some endpoints with a auth key so they can only be accessed with an user's key (Probably using bearer token as it's the one i've used before).  (Pending)
