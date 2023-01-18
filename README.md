@@ -19,8 +19,8 @@ the "books" table consists of the fields:
 
 - id (autoincrement and primary)
 - title (marked as unique)
-- author (contains the id of the author it corresponds to)
-- publisher (contains the id of the publisher it corresponds to)
+- authors_id (contains the id of the author it corresponds to)
+- publishers_id (contains the id of the publisher it corresponds to)
 - number_of_pages (int)
 
 ## Future ideas in development
